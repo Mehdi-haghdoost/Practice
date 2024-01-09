@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 
 import './App.css';
 import Todolist from './Components/Todolist'
-import {addTodoAction} from '../src/Redux/store/todos'
-import { connect } from 'react-redux';
+import { addTodoAction } from '../src/Redux/store/todos'
+import { useDispatch } from 'react-redux';
 
-function App(props) {
+export default function App() {
 
   const [title, setTitle] = useState('')
-
+  const dispatch = useDispatch()
+  
   const addTodoHandler = (event) => {
     event.preventDefault()
-    props.addTodo(title)
+    dispatch(addTodoAction(title))
     setTitle('')
 
   }
@@ -44,8 +45,8 @@ function App(props) {
   );
 }
 
-const mapDispatchToProp = (dispatch) => ({
-  addTodo: (todo) => dispatch(addTodoAction(todo))
-})
+// const mapDispatchToProp = (dispatch) => ({
+//   addTodo: (todo) => dispatch(addTodoAction(todo))
+// })
 
-export default connect(null, mapDispatchToProp)(App);
+// export default connect(null, mapDispatchToProp)(App);
