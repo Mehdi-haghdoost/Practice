@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './App.css';
 import Todolist from './Components/Todolist'
+import {addTodoAction} from '../src/Redux/store/todos'
+import { connect } from 'react-redux';
 
-function App() {
+function App(props) {
+
+  const [title, setTitle] = useState('')
+
+  const addTodoHandler = (event) => {
+    event.preventDefault()
+    props.addTodo(title)
+    setTitle('')
+
+  }
+
   return (
     <>
       <header>
         <h1>Sabzlearn To Do List</h1>
       </header>
       <form action="">
-        <input type="text" className="todo-input" />
-        <button className="todo-button" type="submit">
+        <input type="text" className="todo-input" value={title} onChange={(event) => setTitle(event.target.value)} />
+        <button className="todo-button" type="submit" onClick={addTodoHandler}>
           <i className="fas fa-plus-circle fa-lg"></i>
         </button>
         <div className="select">
@@ -25,13 +37,15 @@ function App() {
 
       <div className="todo-container">
         <ul className="todo-list">
-          {/* Todo */}
           <Todolist />
-          {/* Todo */}
         </ul>
       </div>
     </>
   );
 }
 
-export default App;
+const mapDispatchToProp = (dispatch) => ({
+  addTodo: (todo) => dispatch(addTodoAction(todo))
+})
+
+export default connect(null, mapDispatchToProp)(App);
